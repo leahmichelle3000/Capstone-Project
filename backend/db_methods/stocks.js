@@ -11,7 +11,7 @@ var conString = config.psqlConnectionString //Can be found in the Details pagee
 // JOIN users ON users.user_id=favourites.user_id;
 // WHERE users.username = 'niko';
 
-const insertFavourite = (stock_id, user_id) => new Promise((resolve, reject) => {
+const getUsersStocks = (user_id) => new Promise((resolve, reject) => {
     var client = new pg.Client(conString);
     client.connect(function(err) {
       if (err) {
@@ -19,20 +19,28 @@ const insertFavourite = (stock_id, user_id) => new Promise((resolve, reject) => 
         client.end();
         reject(err)
       }
-      const insertUserQuery = `INSERT INTO favourites (stock_id, user_id) 
-                              VALUES ('${stock_id}', '${user_id}')`
-      client.query(insertUserQuery, function(err, result) {
+      const getUserStocksQuery = `SELECT 
+                stocks.symbol as symbol,
+                users.username as username,
+                stocks.price as price
+            FROM stocks
+            JOIN favourites ON favourites.stock_id=stocks.stock_id
+            JOIN users ON users.user_id=favourites.user_id
+            WHERE users.user_id = '${user_id}';`
+    
+      client.query(getUserStocksQuery, function(err, result) {
         if (err) {
           console.error('error running query', err);
           client.end();
           reject(err)
+          return
         }
-        console.log(result);
-        resolve()
+        // console.log(result);
+        resolve(result.rows)
         client.end();
       });
     });
 })
 
 
-export default { insertFavourite };
+export default { getUsersStocks };

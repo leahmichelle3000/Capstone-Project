@@ -1,7 +1,9 @@
 // I got this from yahoofinanceapi.com
 // Axios seems to be more commonly used than in the real world
 'use strict'
+
 import favouriteMethods from '../db_methods/favourites.js';
+import stocksMethods from '../db_methods/stocks.js';
 
 //TO DO - store the API data in the database mongo DB or postgres or elephant SQL
 // GO TO: https://www.npmjs.com/package/postgres
@@ -45,6 +47,22 @@ router.post('/favourite', async (req, res) => {
   res.status(200)
 })
 
+router.get('/favourites/:user_id', async (req, res) => {
+  const user_id = req.params.user_id;
+
+  // if (!req.body.stock_id || !req.body.user_id) {
+  //   res.status(400);
+  //   res.send('Must provide user_id and stock_id');
+  //   return
+  // }
+  console.log(user_id)
+
+  const result = await stocksMethods.getUsersStocks(user_id)
+  res.json(200, result.map(item => {return { 
+    symbol: item.symbol,
+    price: item.price
+  }}))
+})
 
 export default router
 

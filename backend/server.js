@@ -2,7 +2,7 @@ import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from './swagger.json';
 import userRoute from './routes/userRoute.js';
 import cors from 'cors'
-import stockRoute from './routes/stockRoute.js';
+import stockRoute from './routes/stockRouteForCapstone.js';
 import bodyParser from 'body-parser'
 import express from 'express'
 

@@ -44,6 +44,7 @@ const SignUpForm = () => {
             console.log(response)
             // decode the response
             response.json().then(body => {
+              console.log(body)
               // Below I am setting the state of loggedIn to match the response (e.g true or false)
               setLoggedIn(body)
               if (!body) {
@@ -92,7 +93,22 @@ const SignUpForm = () => {
       },
       body: JSON.stringify({username: document.getElementById('username1111').value,
       password: document.getElementById('password1111').value})
-      }).then((responseFromServer)=>{console.log(responseFromServer)});
+      }).then((response)=>{
+        console.log(response)
+        response.json().then(body => {
+          console.log(body)
+          if (body.err) {
+            alert(body.err)
+          } else {
+            alert("sign up successful")
+          }
+          // Below I am setting the state of loggedIn to match the response (e.g true or false)
+          // setLoggedIn(body)
+          // if (!body) {
+          //   alert("incorrect username or password")
+          // }
+        })
+      });
     }
 
 ReactDOM.render( 

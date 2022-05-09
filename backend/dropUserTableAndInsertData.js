@@ -8,9 +8,9 @@ const createUserTableQuery = `CREATE TABLE users (
 	username VARCHAR ( 50 ) UNIQUE NOT NULL,
 	password VARCHAR ( 255 ) NOT NULL
 )`;
-// const insertDummyUserQuery = `INSERT INTO users (username, password) VALUES ('gwenbaker', 'turtle'), ('niko', 'swordfish')`;
+const insertDummyUserQuery = `INSERT INTO users (username, password) VALUES ('gwenbaker', 'turtle'), ('niko', 'swordfish')`;
 
-const insertDynamicUserQuery = `INSERT INTO users (username, email) VALUES ('${username}', '${password}')`
+// const insertDynamicUserQuery = `INSERT INTO users (username, email) VALUES ('${username}', '${password}')`
 // I use this connection string to connect to my Elephant SQL database
 var conString = config.psqlConnectionString //Can be found in the Details page
 var client = new pg.Client(conString);
@@ -34,7 +34,7 @@ client.connect(function(err) {
         }
 
         // insert the new dummy user
-        client.query(insertDynamicUserQuery, function(err, result) {
+        client.query(insertDummyUserQuery, function(err, result) {
             if (err) {
                 return console.error('error running query', err);
             }

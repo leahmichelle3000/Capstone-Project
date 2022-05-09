@@ -11,28 +11,32 @@ var conString = config.psqlConnectionString //Can be found in the Details pagee
 // JOIN users ON users.user_id=favourites.user_id;
 // WHERE users.username = 'niko';
 
-const insertFavourite = (stock_id, user_id) => new Promise((resolve, reject) => {
+// const signUp
+
+const signUp = (username, password) => new Promise((resolve, reject) => {
     var client = new pg.Client(conString);
     client.connect(function(err) {
       if (err) {
-        console.error('could not connect to postgres', err);
+        console.error('error running query', err);
         client.end();
         reject(err)
+        return
       }
-      const insertUserQuery = `INSERT INTO favourites (stock_id, user_id) 
-                              VALUES ('${stock_id}', '${user_id}')`
+      const insertUserQuery = `INSERT INTO users (username, password) VALUES ('${username}', '${password}')`;
+
       client.query(insertUserQuery, function(err, result) {
         if (err) {
-          console.error('error running query', err);
-          client.end();
-          reject(err)
+            console.error('error running query', err);
+            client.end();
+            reject(err)
+            return
         }
-        console.log(result);
-        resolve()
+        // console.log(result);
+        resolve(result.rows)
         client.end();
       });
     });
 })
 
 
-export default { insertFavourite };
+export default { signUp };

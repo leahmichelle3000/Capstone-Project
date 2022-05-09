@@ -16,8 +16,8 @@ const insertDummyStockQuery = `INSERT INTO stocks (symbol, price) VALUES ('AAPL'
 
 // const insertDynamicStockQuery = `INSERT INTO stocks (symbol, price) VALUES (${data.query.result.quote[0].symbol}, ${data.query.result.quote[0].price}), (${data.query.result.quote[1].symbol}, ${data.query.result.quote[1].price})`;
 
-console.log(insertDynamicStockQuery)
-(data.query.result.quote[0].symbol, data.query.result.quote[0].price)
+// console.log(insertDynamicStockQuery)
+// (data.query.result.quote[0].symbol, data.query.result.quote[0].price)
 
 // I use this connection string to connect to my Elephant SQL database
 var conString = config.psqlConnectionString //Can be found in the Details page
@@ -42,7 +42,7 @@ client.connect(function(err) {
         }
 
         // insert the new dummy stock
-        client.query(insertDynamicStockQuery, function(err, result) {
+        client.query(insertDummyStockQuery, function(err, result) {
             if (err) {
                 return console.error('error running query', err);
             }
