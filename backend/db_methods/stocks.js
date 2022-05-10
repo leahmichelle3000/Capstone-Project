@@ -1,4 +1,5 @@
 import pg from 'pg'
+
 import config from "../config.json";
 var conString = config.psqlConnectionString //Can be found in the Details pagee
 

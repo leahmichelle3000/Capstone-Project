@@ -1,0 +1,17 @@
+// to do
+create a search functionality 'react search filter table'
+allow users to favourite stocks that they have searched for
+remove favourite route
+create process that updates stock data using live data from yahoo 
+define a list of stocks that we will watch (depends on limitation of yahoo finance)
+unit testing
+
+
+
+ONE FILE called test.js - can use supertest package
+Calls your API, when call API, returns 200
+
+
+
+swagger not required
+EC2

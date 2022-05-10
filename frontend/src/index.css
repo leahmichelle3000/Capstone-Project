@@ -1,6 +1,7 @@
 body {
-  padding: 20%;
-  margin: 0;
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 20px;
   align-items: center;
   text-align: justify;
   text-justify: inter-word;

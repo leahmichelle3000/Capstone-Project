@@ -14,7 +14,7 @@ import cors  from 'cors'
 const app  = express();
 app.use(cors());
 // // I created this object to call my API Key, keeping it in a separate file for security
-import yahooConfig from "../config.json";
+import yahooConfig from "../config.json" ;
 
 // Ask Ali  - I moved my axios GET Request into this function, experimenting - I think something is wrong with this. I also hadnt defined res
 // router.get('/mamaastocks', (req, res) => {
@@ -37,6 +37,7 @@ import yahooConfig from "../config.json";
 // });
 
 router.post('/favourite', async (req, res) => {
+  console.log(req.body)
   if (!req.body.stock_id || !req.body.user_id) {
     res.status(400);
     res.send('Must provide user_id and stock_id');
@@ -45,6 +46,7 @@ router.post('/favourite', async (req, res) => {
 
   await favouriteMethods.insertFavourite(req.body.stock_id, req.body.user_id)
   res.status(200)
+  res.send({})
 })
 
 router.get('/favourites/:user_id', async (req, res) => {
@@ -53,15 +55,18 @@ router.get('/favourites/:user_id', async (req, res) => {
   const result = await stocksMethods.getUsersStocks(user_id)
   res.json(200, result.map(item => {return { 
     symbol: item.symbol,
-    price: item.price
+    price: item.price,
+    id: item.id
   }}))
 })
 
 router.get('/', async (req, res) => {
   const result = await stocksMethods.getAllStocks()
+  console.log(result)
   res.json(200, result.map(item => {return { 
     symbol: item.symbol,
-    price: item.price
+    price: item.price,
+    id: item.stock_id
   }}))
 })
 

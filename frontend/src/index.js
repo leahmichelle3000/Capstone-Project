@@ -62,7 +62,7 @@ const SignUpForm = () => {
   return (
       <div>
         <h1>EquiTrade</h1>
-<image src= "adobe_logo.jpg"></image>
+{/* <image src= "adobe_logo.jpg"></image> */}
         {!loggedIn && (
           <div>
             {/* <p>{JSON.stringify(formState)}</p> */}
