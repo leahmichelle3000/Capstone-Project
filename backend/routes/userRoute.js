@@ -15,6 +15,7 @@ router.post('/signUp',  async (req, res) => {
         // console.log(result)
 
         res.status(200)
+        res.send({message: "sign up succesfful"})
     } catch (err) {
         console.error(err)
         res.status(400)
@@ -45,7 +46,24 @@ router.post('/signUp',  async (req, res) => {
 // SIGNUP ENDS
 
 // SIGNIN STARTS
-    router.post('/signIn', (req, res) => {
+    router.post('/signIn', async (req, res) => {
+        try{
+            const result = await usersMethods.getUsersWithUsernameAndPassword(req.body.username, req.body.password)
+    
+            if (result.length === 0) {
+                res.status(403)
+                res.send({err: "account does not exist or password is incorrect"})
+            } else {
+                res.status(200)
+                res.send({user_id: result[0].user_id})
+            }
+            // console.log(result)
+           
+        } catch (err) {
+            console.error(err)
+            res.status(400)
+            res.send({err: err.detail})
+        }
 
         // console.log("signincall",req.body);
         // res.send(JSON.stringify(req.body.userpass, 2));

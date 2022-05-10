@@ -49,6 +49,7 @@ const dataSource = [
 
 let StockTable = (props) => {
     const [stockFormattedDataForTable, setFormattedDataForTable] = useState([])
+    const [allStockData, setAllStockData] = useState([])
     // const [stockData, setStockData] = useState([])
     const [tableColumns, setTableColumns] = useState([
         {
@@ -100,36 +101,58 @@ let StockTable = (props) => {
     //React will remember the function you passed (we'll refer to it as our “effect”), and call it later after performing the DOM updates.
 
     useEffect(() => {
-       fetch('http://localhost:3003/stock/mamaastocks').then(data => {
+      if (typeof props.userId === 'undefined') {
+        return
+      }
+       fetch(`http://localhost:3003/stock/favourites/${props.userId}`).then(data => {
           return data.json();
        }).then(json => {
-        //    console.log('data from mammastocks');
-           console.log(json)
-        //    console.log('result')
-        //    console.log(json.quoteResponse.result);
-          //  setStockData(json.quoteResponse.result)
-           const formattedData = json.quoteResponse.result.map((stock, index) => {
+           const formattedData = json.map((stock, index) => {
                 return {
                     symbol: stock.symbol,
-                    name: stock.shortName,
-                    price: "$" + stock.regularMarketPrice,
-                    change: stock.regularMarketChangePercent + "%",
-                    volume: stock.regularMarketVolume + " shares",
-                    sharesOutstanding: stock.sharesOutstanding, 
-                    marketCap: "$" + stock.marketCap,
-                    fullExchangeName: stock.fullExchangeName,
+                    // name: stock.shortName,
+                    price: "$" + stock.price,
+                    // change: stock.regularMarketChangePercent + "%",
+                    // volume: stock.regularMarketVolume + " shares",
+                    // sharesOutstanding: stock.sharesOutstanding, 
+                    // marketCap: "$" + stock.marketCap,
+                    // fullExchangeName: stock.fullExchangeName,
                     key: `${index}`
                 }
             }) 
             setFormattedDataForTable(formattedData)
        })
-    }, []);
+
+       fetch(`http://localhost:3003/stock/`).then(data => {
+          return data.json();
+       }).then(json => {
+         console.log(json)
+           const formattedData = json.map((stock, index) => {
+                return {
+                    symbol: stock.symbol,
+                    // name: stock.shortName,
+                    price: "$" + stock.price,
+                    // change: stock.regularMarketChangePercent + "%",
+                    // volume: stock.regularMarketVolume + " shares",
+                    // sharesOutstanding: stock.sharesOutstanding, 
+                    // marketCap: "$" + stock.marketCap,
+                    // fullExchangeName: stock.fullExchangeName,
+                    key: `${index}`
+                }
+            }) 
+            setAllStockData(formattedData)
+       })
+    }, [props.userId]);
 
     return(
         <>
-        <h1>EquiTrade</h1>
+        <h2>User id = {props.userId}</h2>
         <Table dataSource={stockFormattedDataForTable} columns={tableColumns} />
         <Input placeholder="Stock Search" />
+        
+        {/* allStockData represents all stocks in the database */}
+        {JSON.stringify(allStockData)}
+
             {/* {stockData.map(stock => (
                 <h2>{stock.longName} ${stock.regularMarketPrice}</h2>
             ))} */}

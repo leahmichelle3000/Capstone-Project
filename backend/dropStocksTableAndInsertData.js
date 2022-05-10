@@ -8,7 +8,7 @@ const createStocksTableQuery = `CREATE TABLE stocks (
     symbol VARCHAR ( 50 ) UNIQUE NOT NULL,
     price FLOAT ( 50 ) NOT NULL
 )`;
-const insertDummyStockQuery = `INSERT INTO stocks (symbol, price) VALUES ('AAPL', '156.80'), ('AMZN', '2787.82')`;
+const insertDummyStockQuery = `INSERT INTO stocks (symbol, price) VALUES ('AAPL', '156.80'), ('AMZN', '2787.82'), ('GOOG', '2250.22')`;
 
 // const insertDynamicStockQuery = (result.data[0].symbol, result.data[0].price)
 

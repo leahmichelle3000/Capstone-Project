@@ -38,5 +38,31 @@ const signUp = (username, password) => new Promise((resolve, reject) => {
     });
 })
 
+const getUsersWithUsernameAndPassword = (username, password) => new Promise((resolve, reject) => {
+    var client = new pg.Client(conString);
+    client.connect(function(err) {
+      if (err) {
+        console.error('error running query', err);
+        client.end();
+        reject(err)
+        return
+      }
+      const insertUserQuery = `select * from users
+      where users.username = '${username}' and users.password = '${password}'`
 
-export default { signUp };
+      client.query(insertUserQuery, function(err, result) {
+        if (err) {
+            console.error('error running query', err);
+            client.end();
+            reject(err)
+            return
+        }
+        // console.log(result);
+        resolve(result.rows)
+        client.end();
+      });
+    });
+})
+
+
+export default { signUp, getUsersWithUsernameAndPassword };

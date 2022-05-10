@@ -42,5 +42,29 @@ const getUsersStocks = (user_id) => new Promise((resolve, reject) => {
     });
 })
 
+const getAllStocks = (user_id) => new Promise((resolve, reject) => {
+    var client = new pg.Client(conString);
+    client.connect(function(err) {
+      if (err) {
+        console.error('could not connect to postgres', err);
+        client.end();
+        reject(err)
+      }
+      const getAllStocks = `SELECT * from stocks`
+    
+      client.query(getAllStocks, function(err, result) {
+        if (err) {
+          console.error('error running query', err);
+          client.end();
+          reject(err)
+          return
+        }
+        // console.log(result);
+        resolve(result.rows)
+        client.end();
+      });
+    });
+})
 
-export default { getUsersStocks };
+
+export default { getUsersStocks, getAllStocks };

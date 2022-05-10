@@ -17,24 +17,24 @@ app.use(cors());
 import yahooConfig from "../config.json";
 
 // Ask Ali  - I moved my axios GET Request into this function, experimenting - I think something is wrong with this. I also hadnt defined res
-router.get('/mamaastocks', (req, res) => {
+// router.get('/mamaastocks', (req, res) => {
 
-   axios({
-  method: 'GET', //you can set what request you want to be
-  url: 'https://yfapi.net/v6/finance/quote?region=US&lang=en&symbols=AAPL%2CAMZN%2CGOOG%2CFB%2CMSFT%2CNAB.AX',
-    params: {modules: 'defaultKeyStatistics,assetProfile'},
-  headers: {
-       // Below, I am accessing an object called yahooConfig and the property within called yahooApiKey
-    'x-api-key': yahooConfig.yahooApiKey
-    // Authorization: 'Bearer ' + varToken
-  }
-  // as axios is a promise-based package, we need to use a then
-})
-.then((result) => {
+//    axios({
+//   method: 'GET', //you can set what request you want to be
+//   url: 'https://yfapi.net/v6/finance/quote?region=US&lang=en&symbols=AAPL%2CAMZN%2CGOOG%2CFB%2CMSFT%2CNAB.AX',
+//     params: {modules: 'defaultKeyStatistics,assetProfile'},
+//   headers: {
+//        // Below, I am accessing an object called yahooConfig and the property within called yahooApiKey
+//     'x-api-key': yahooConfig.yahooApiKey
+//     // Authorization: 'Bearer ' + varToken
+//   }
+//   // as axios is a promise-based package, we need to use a then
+// })
+// .then((result) => {
 
-    res.send(result.data);
-})
-});
+//     res.send(result.data);
+// })
+// });
 
 router.post('/favourite', async (req, res) => {
   if (!req.body.stock_id || !req.body.user_id) {
@@ -50,14 +50,15 @@ router.post('/favourite', async (req, res) => {
 router.get('/favourites/:user_id', async (req, res) => {
   const user_id = req.params.user_id;
 
-  // if (!req.body.stock_id || !req.body.user_id) {
-  //   res.status(400);
-  //   res.send('Must provide user_id and stock_id');
-  //   return
-  // }
-  console.log(user_id)
-
   const result = await stocksMethods.getUsersStocks(user_id)
+  res.json(200, result.map(item => {return { 
+    symbol: item.symbol,
+    price: item.price
+  }}))
+})
+
+router.get('/', async (req, res) => {
+  const result = await stocksMethods.getAllStocks()
   res.json(200, result.map(item => {return { 
     symbol: item.symbol,
     price: item.price
