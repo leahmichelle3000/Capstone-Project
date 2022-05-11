@@ -4,8 +4,9 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --experimental-json-modules server.js"
+    "test": "node --experimental-vm-modules node_modules/.bin/jest --coverage",
+    "start": "nodemon --experimental-json-modules server.js",
+    "schema": "node --experimental-json-modules dropStocksTableAndInsertData.js && node --experimental-json-modules dropFavouritesTableAndInsertData.js && node --experimental-json-modules dropUserTableAndInsertData.js"
   },
   "author": "",
   "type": "module",
@@ -18,5 +19,9 @@
     "express": "^4.17.2",
     "pg": "^8.7.3",
     "swagger-ui-express": "^4.3.0"
+  },
+  "devDependencies": {
+    "jest": "^28.1.0",
+    "supertest": "^6.2.3"
   }
 }

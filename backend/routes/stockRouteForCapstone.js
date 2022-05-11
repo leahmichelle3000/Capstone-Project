@@ -36,6 +36,19 @@ import yahooConfig from "../config.json" ;
 // })
 // });
 
+router.delete('/favourite', async (req, res) => {
+  console.log('delete fav', req.body)
+  if (!req.body.stock_id || !req.body.user_id) {
+    res.status(400);
+    res.send('Must provide user_id and stock_id');
+    return
+  }
+
+  await favouriteMethods.deleteFavourite(req.body.stock_id, req.body.user_id)
+  res.status(200)
+  res.send({})
+})
+
 router.post('/favourite', async (req, res) => {
   console.log(req.body)
   if (!req.body.stock_id || !req.body.user_id) {
@@ -53,10 +66,11 @@ router.get('/favourites/:user_id', async (req, res) => {
   const user_id = req.params.user_id;
 
   const result = await stocksMethods.getUsersStocks(user_id)
+  console.log(result)
   res.json(200, result.map(item => {return { 
     symbol: item.symbol,
     price: item.price,
-    id: item.id
+    id: item.stock_id
   }}))
 })
 

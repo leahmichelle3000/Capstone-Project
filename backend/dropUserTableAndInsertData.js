@@ -1,6 +1,8 @@
 import pg from 'pg'
 import config from './config.json'
 
+console.log('Dropping user table and inserting new table with dummy data...')
+
 // I am using this file to drop table(i.e. completely delete current table), create new user table, and insert user queries (SQL)
 const dropUserTableQuery = "DROP TABLE users"
 const createUserTableQuery = `CREATE TABLE users (

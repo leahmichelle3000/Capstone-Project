@@ -61,8 +61,8 @@ const SignUpForm = () => {
 
   return (
       <div>
-        <h1>EquiTrade</h1>
-{/* <image src= "adobe_logo.jpg"></image> */}
+        
+        <h1><img style={{width: '200px'}}src= "adobe_logo.png"></img>goodfi </h1>
         {!loggedIn && (
           <div>
             {/* <p>{JSON.stringify(formState)}</p> */}
@@ -80,8 +80,10 @@ const SignUpForm = () => {
             <br></br>
             <button id="signUpButton" onClick={(e)=>handleSignup(e)}>Sign Up</button>
             <button id="signInButton" onClick={(e)=>handleSignin(e)}>Sign In</button> 
+            <h2>Share trading the sustainable way</h2>
             </form>
           </div>
+          
         )}
 
         {loggedIn && (<AuthenticatedApp userId={userId} />)}

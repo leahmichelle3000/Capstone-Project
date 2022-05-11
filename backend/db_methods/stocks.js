@@ -23,6 +23,7 @@ const getUsersStocks = (user_id) => new Promise((resolve, reject) => {
       const getUserStocksQuery = `SELECT 
                 stocks.symbol as symbol,
                 users.username as username,
+                stocks.stock_id as stock_id,
                 stocks.price as price
             FROM stocks
             JOIN favourites ON favourites.stock_id=stocks.stock_id

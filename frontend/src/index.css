@@ -15,7 +15,12 @@ body {
 }
 
 h1 {
-  font-size: 62px;
+  font-size: 102px;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+h2 {
+  font-size: 32px;
   font-family: 'Times New Roman', Times, serif;
 }
 
@@ -25,17 +30,22 @@ label {
 
 input {
   background-color: rgb(255, 254, 255);
+  border-radius: 11px;
+  cursor: text
 }
 
 button {
   background-color: #fdfdfd;
   border: none;
   color: rgb(2, 2, 2);
-  padding: 15px 32px;
+  padding: 10px 22px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
+  border-radius: 11px;
+  cursor: pointer;
+  white-space: normal;
 }
 
 code {

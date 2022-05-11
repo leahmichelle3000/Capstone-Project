@@ -1,6 +1,6 @@
 // THIS IS A UTILITY FUNCTION FOR ME TO CLEAR TABLE IF REQUIRED WHILE I DEVELOP THIS APP. IT WILL NOT INTERFERE WITH MY API. 
 // IT IS A STANDARD PRACTICE TO HAVE DATABASE SCHEMA FOR DUMMY DATA AND 
-
+console.log('Dropping favourites table and inserting new table with dummy data...')
 
 import pg from 'pg'
 import config from './config.json'

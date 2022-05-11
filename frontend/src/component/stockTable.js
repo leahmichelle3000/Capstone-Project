@@ -11,19 +11,19 @@ let StockTable = ({userId}) => {
     const [stockFormattedDataForTable, setFormattedDataForTable] = useState([])
     const [allStockData, setAllStockData] = useState([])
     const [allStockDataFiltered, setAllStockDataFiltered] = useState([])
-    // const [userId, setUserId] = useState()
-    // const [stockData, setStockData] = useState([])
     const [tableColumns, setTableColumns] = useState([])
+    const [watchedColumns, setWatchedColumns] = useState([])
 
 
 
     const favouriteStock = (record) => {
-      console.log(record, userId)
+
       const body = JSON.stringify({
         stock_id: record.id,
         user_id: userId
       })
-    
+  
+
       fetch('http://localhost:3003/stock/favourite', { 
         method: 'POST',
         headers: {
@@ -49,6 +49,43 @@ let StockTable = ({userId}) => {
                       // sharesOutstanding: stock.sharesOutstanding, 
                       // marketCap: "$" + stock.marketCap,
                       // fullExchangeName: stock.fullExchangeName,
+                      key: `${index}`
+                  }
+              }) 
+              setFormattedDataForTable(formattedData)
+        })
+      })
+
+
+    }
+
+    const unfavouriteStock = (record) => {
+      console.log(record, userId)
+      const body = JSON.stringify({
+        stock_id: record.id,
+        user_id: userId
+      })
+  
+
+      fetch('http://localhost:3003/stock/favourite', { 
+        method: 'DELETE',
+        headers: {
+        'Access-Control-Allow-Origin' : '*',
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+        },
+        body: body
+      }).then(result => {
+        console.log(result)
+        fetch(`http://localhost:3003/stock/favourites/${userId}`).then(data => {
+          return data.json();
+        }).then(json => {
+          console.log(json)
+            const formattedData = json.map((stock, index) => {
+                  return {
+                      symbol: stock.symbol,
+                      price: "$" + stock.price,
+                      id: stock.id,
                       key: `${index}`
                   }
               }) 
@@ -125,11 +162,40 @@ let StockTable = ({userId}) => {
       //     key: "exchangeName"
       // },
         
-    ])
+      ])
+      setWatchedColumns([
+        {
+            dataIndex: "symbol",
+            title: "Symbol",
+            key: "symbol"
+        },
+        //  {
+        //     dataIndex: "name",
+        //     title: "Name",
+        //     key: "name"
+        // },
+         {
+            dataIndex: "price",
+            title: "Price",
+            key: "price"
+        },
+        {
+          title: '',
+          key: 'id',
+          dataIndex: 'id',
+          render: (text, record) => (
+           <button style={{backgroundColor: "#f8e7d7", borderRadius: "11px", cursor: "pointer"}} onClick={()=> unfavouriteStock(record)}>
+             Unwatch
+           </button>
+          ),
+        },
+          
+      ])
       
        fetch(`http://localhost:3003/stock/favourites/${userId}`).then(data => {
           return data.json();
        }).then(json => {
+          console.log(json)
            const formattedData = json.map((stock, index) => {
                 return {
                     symbol: stock.symbol,
@@ -188,26 +254,17 @@ let StockTable = ({userId}) => {
 
     return(
         <>
-        <h2>User id = {userId}</h2>
         <div style={{display: "flex"}}>
           <div style={{width: "50%", paddingRight: "20px"}}>
-            <h2> All Stocks</h2>
+            <h2> Search Stocks</h2>
             <input placeholder="Filter Stocks" onChange={e => applyFilter(e.target.value)}/>
             <Table dataSource={allStockDataFiltered} columns={tableColumns} />
           </div>
           <div style={{width: "50%", paddingLeft: "20px"}}>
-            <h2> Watchlist</h2>
-            <Table  style={{marginTop: "42px"}} dataSource={stockFormattedDataForTable} columns={tableColumns} />
+            <h2>My Watchlist</h2>
+            <Table  style={{marginTop: "42px"}} dataSource={stockFormattedDataForTable} columns={watchedColumns} />
           </div>
         </div>
-       
-        
-        {/* allStockData represents all stocks in the database */}
-        {JSON.stringify(allStockData)}
-
-            {/* {stockData.map(stock => (
-                <h2>{stock.longName} ${stock.regularMarketPrice}</h2>
-            ))} */}
         </>
     )
 }

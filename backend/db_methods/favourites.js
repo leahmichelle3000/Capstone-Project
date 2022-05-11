@@ -19,11 +19,18 @@ const insertFavourite = (stock_id, user_id) => new Promise((resolve, reject) => 
         client.end();
         reject(err)
       }
-      const insertUserQuery = `INSERT INTO favourites (stock_id, user_id) 
-                              VALUES ('${stock_id}', '${user_id}')`
+      const insertUserQuery = `
+      INSERT INTO favourites (stock_id, user_id) 
+        SELECT '${stock_id}', '${user_id}'
+      WHERE
+        NOT EXISTS (
+          SELECT * FROM favourites WHERE stock_id='${stock_id}' AND user_id='${user_id}'
+        );
+      `
+      console.log(insertUserQuery)
       client.query(insertUserQuery, function(err, result) {
         if (err) {
-          console.error('error running query', err);
+          // console.error('error running query', err);
           client.end();
           reject(err)
         }
@@ -34,5 +41,28 @@ const insertFavourite = (stock_id, user_id) => new Promise((resolve, reject) => 
     });
 })
 
+const deleteFavourite = (stock_id, user_id) => new Promise((resolve, reject) => {
+  var client = new pg.Client(conString);
+  client.connect(function(err) {
+    if (err) {
+      console.error('could not connect to postgres', err);
+      client.end();
+      reject(err)
+    }
+    const deleteFavouriteQuery = `DELETE FROM favourites 
+                            WHERE stock_id='${stock_id}' AND user_id='${user_id}'`
+    client.query(deleteFavouriteQuery, function(err, result) {
+      if (err) {
+        console.error('error running query', err);
+        client.end();
+        reject(err)
+      }
+      console.log(result);
+      resolve()
+      client.end();
+    });
+  });
+})
 
-export default { insertFavourite };
+
+export default { insertFavourite, deleteFavourite };
