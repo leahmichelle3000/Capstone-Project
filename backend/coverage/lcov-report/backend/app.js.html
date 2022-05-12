@@ -134,7 +134,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import swaggerUi from 'swagger-ui-express';
-import swaggerDocument from './swagger.json';
+import swaggerDocument from './swagger.json' assert {type: "json"};
 import userRoute from './routes/userRoute.js';
 import cors from 'cors'
 import stockRoute from './routes/stockRouteForCapstone.js';

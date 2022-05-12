@@ -3,7 +3,7 @@
 console.log('Dropping favourites table and inserting new table with dummy data...')
 
 import pg from 'pg'
-import config from './config.json'
+import config from './config.json' assert {type: "json"};
 
 // I am using this file to drop table(i.e. completely delete current table), create new user table, and insert user queries (SQL)
 const dropStocksTableQuery = "DROP TABLE IF EXISTS favourites"

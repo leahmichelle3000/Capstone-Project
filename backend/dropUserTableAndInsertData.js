@@ -1,5 +1,5 @@
 import pg from 'pg'
-import config from './config.json'
+import config from './config.json' assert {type: "json"};
 
 console.log('Dropping user table and inserting new table with dummy data...')
 

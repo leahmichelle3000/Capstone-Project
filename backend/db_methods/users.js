@@ -1,5 +1,5 @@
 import pg from 'pg'
-import config from "../config.json";
+import config from "../config.json" assert {type: "json"};
 var conString = config.psqlConnectionString //Can be found in the Details pagee
 
 // SELECT 

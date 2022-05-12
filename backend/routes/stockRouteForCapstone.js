@@ -14,7 +14,7 @@ import cors  from 'cors'
 const app  = express();
 app.use(cors());
 // // I created this object to call my API Key, keeping it in a separate file for security
-import yahooConfig from "../config.json" ;
+import yahooConfig from "../config.json" assert {type: "json"};
 
 // Ask Ali  - I moved my axios GET Request into this function, experimenting - I think something is wrong with this. I also hadnt defined res
 // router.get('/mamaastocks', (req, res) => {

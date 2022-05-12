@@ -1,5 +1,5 @@
 import swaggerUi from 'swagger-ui-express';
-import swaggerDocument from './swagger.json';
+import swaggerDocument from './swagger.json' assert {type: "json"};
 import userRoute from './routes/userRoute.js';
 import cors from 'cors'
 import stockRoute from './routes/stockRouteForCapstone.js';
