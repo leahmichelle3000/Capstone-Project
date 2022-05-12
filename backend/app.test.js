@@ -3,7 +3,7 @@ import app from "./app.js"
 
 describe("POST /users", () => {
 
-  describe("when signing in as gwen ba a username and password", () => {
+  describe("when signing in as gwenbeker, which is an existing username and password", () => {
     test("should respond with a 200 status code", async () => {
       const response = await request(app).post("/user/signIn").send({ 
         username: "gwenbaker", 
